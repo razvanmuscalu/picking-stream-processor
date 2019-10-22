@@ -1,0 +1,3 @@
+{"timestamp":"2018-12-20T11:50:48Z","id":"2344","picker":{"id":"14","name":"Joris","active_since":"2018-09-20T08:20:00Z"},"article":{"id":"13473","name":"ACME Bananas","temperature_zone":"ambient"},"quantity":2}
+{"timestamp":"2018-12-20T11:50:49Z","id":"2345","picker":{"id":"15","name":"Jan","active_since":"2018-11-14T08:20:15Z"},"article":{"id":"13473","name":"ACME Bananas","temperature_zone":"ambient"},"quantity":2}
+{"timestamp":"2018-12-20T11:51:00Z","id":"2346","picker":{"id":"14","name":"Joris","active_since":"2018-09-20T08:20:00Z"},"article":{"id":"41459","name":"ACME Apples","temperature_zone":"ambient"},"quantity":1}

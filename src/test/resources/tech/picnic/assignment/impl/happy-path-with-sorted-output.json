@@ -1,0 +1,92 @@
+[
+  {
+    "picker_name": "Mike",
+    "active_since": "2017-09-20T08:20:00Z",
+    "picks": [
+      {
+        "article_name": "ACME APPLES",
+        "timestamp": "2018-12-20T11:51:00Z"
+      }
+    ]
+  },
+  {
+    "picker_name": "Lara",
+    "active_since": "2018-09-20T08:20:00Z",
+    "picks": [
+      {
+        "article_name": "ACME APPLES",
+        "timestamp": "2018-12-20T11:51:00Z"
+      }
+    ]
+  },
+  {
+    "picker_name": "Matt",
+    "active_since": "2018-09-20T08:20:00Z",
+    "picks": [
+      {
+        "article_name": "ACME APPLES",
+        "timestamp": "2018-12-20T11:51:00Z"
+      }
+    ]
+  },
+  {
+    "picker_name": "Joris",
+    "active_since": "2018-09-20T08:20:00Z",
+    "picks": [
+      {
+        "article_name": "ACME BANANAS",
+        "timestamp": "2018-12-20T11:50:48Z"
+      },
+      {
+        "article_name": "ACME APPLES",
+        "timestamp": "2018-12-20T11:51:00Z"
+      }
+    ]
+  },
+  {
+    "picker_name": "Hugh",
+    "active_since": "2018-09-20T08:20:00Z",
+    "picks": [
+      {
+        "article_name": "ACME APPLES",
+        "timestamp": "2018-12-20T11:51:00Z"
+      }
+    ]
+  },
+  {
+    "picker_name": "John",
+    "active_since": "2018-11-14T08:20:15Z",
+    "picks": [
+      {
+        "article_name": "ACME PEARS",
+        "timestamp": "2018-12-20T08:50:49Z"
+      },
+      {
+        "article_name": "ACME BERRIES",
+        "timestamp": "2018-12-20T09:50:49Z"
+      },
+      {
+        "article_name": "ACME ORANGES",
+        "timestamp": "2018-12-20T10:50:49Z"
+      },
+      {
+        "article_name": "ACME BANANAS",
+        "timestamp": "2018-12-20T11:50:49Z"
+      },
+      {
+        "article_name": "ACME APPLES",
+        "timestamp": "2018-12-20T13:50:49Z"
+      }
+    ]
+  },
+  {
+    "picker_name": "Jan",
+    "active_since": "2018-11-14T08:20:15Z",
+    "picks": [
+      {
+        "article_name": "ACME BANANAS",
+        "timestamp": "2018-12-20T11:50:49Z"
+      }
+    ]
+  }
+]

@@ -1,6 +1,5 @@
 package tech.picnic.assignment.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -82,17 +81,27 @@ class PickingStreamProcessorTest {
     @RepeatedTest(2)
     @DisplayName("should have high performance")
     void testPerformance() throws IOException {
+        var runs = 10;
+        var ignoredRuns = 2;
         var picks = generate(PickingStreamProcessorTest::pick).limit(1_000_000).collect(toUnmodifiableList());
 
         when(sourceReader.readLines(any())).thenReturn(picks);
 
-        for (int i = 0; i < 10; i++) {
+        var total = 0;
+        for (int i = 0; i < runs; i++) {
             var before = currentTimeMillis();
             processStream();
             var after = currentTimeMillis();
 
             System.out.println(format("Took: %s", after - before));
+
+            // JVM warm-up; ignore first 2 runs
+            if (i >= ignoredRuns) total += after - before;
         }
+
+        int average = total / (runs - ignoredRuns);
+        System.out.println(format("Took on average: %s", average));
+        assertThat(average).isLessThan(1_000);
     }
 
     @Test

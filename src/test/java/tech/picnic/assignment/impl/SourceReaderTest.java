@@ -62,7 +62,7 @@ class SourceReaderTest {
 
         int average = total / (runs - ignoredRuns);
         System.out.println(format("Took on average: %s", average));
-        assertThat(average).isLessThan(1000);
+        assertThat(average).isLessThan(5_000);
     }
 
     @Test

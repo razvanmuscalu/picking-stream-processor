@@ -84,18 +84,7 @@ class PickingStreamProcessorTest {
     void testPerformance() throws IOException {
         var picks = generate(PickingStreamProcessorTest::pick).limit(1_000_000).collect(toUnmodifiableList());
 
-        var lines = picks
-                .stream()
-                .map(pick -> {
-                    try {
-                        return objectMapper.writeValueAsString(pick);
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .collect(toUnmodifiableList());
-
-        when(sourceReader.readLines(any())).thenReturn(lines);
+        when(sourceReader.readLines(any())).thenReturn(picks);
 
         for (int i = 0; i < 10; i++) {
             var before = currentTimeMillis();
@@ -177,18 +166,7 @@ class PickingStreamProcessorTest {
     }
 
     private List<PickerWithPicks> processStream(List<PickRequest> picks) throws IOException {
-        var lines = picks
-                .stream()
-                .map(pick -> {
-                    try {
-                        return objectMapper.writeValueAsString(pick);
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .collect(toUnmodifiableList());
-
-        when(sourceReader.readLines(any())).thenReturn(lines);
+        when(sourceReader.readLines(any())).thenReturn(picks);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 

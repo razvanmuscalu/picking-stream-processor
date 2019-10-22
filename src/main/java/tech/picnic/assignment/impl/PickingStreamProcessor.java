@@ -38,8 +38,6 @@ public class PickingStreamProcessor implements StreamProcessor {
     public void process(InputStream source, OutputStream sink) throws IOException {
         final var pickers = sourceReader.readLines(source)
                 .stream()
-                .map(toPickRequest())
-                .flatMap(Optional::stream)
                 .filter(requiredArticles())
                 .collect(groupingBy(PickRequest::getPicker))
                 .entrySet()
@@ -78,13 +76,4 @@ public class PickingStreamProcessor implements StreamProcessor {
                 .build();
     }
 
-    private Function<String, Optional<PickRequest>> toPickRequest() {
-        return line -> {
-            try {
-                return Optional.of(OBJECT_MAPPER.readValue(line, PickRequest.class));
-            } catch (IOException e) {
-                return Optional.empty();
-            }
-        };
-    }
 }

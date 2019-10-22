@@ -3,6 +3,7 @@ package tech.picnic.assignment.impl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import tech.picnic.assignment.model.PickRequest;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -79,7 +80,7 @@ class SourceReaderTest {
     @Test
     @DisplayName("should process received events before maxTime")
     void testMaxTime() throws IOException {
-        var lines = List.of("line");
+        var lines = List.of(pickLine);
 
         var actualOutput = readInputStream(lines, 100, ofSeconds(3));
 
@@ -89,7 +90,7 @@ class SourceReaderTest {
     @Test
     @DisplayName("should close stream after maxTime")
     void testCloseAfterMaxTime() throws IOException {
-        var lines = List.of("line");
+        var lines = List.of(pickLine);
 
         var now = currentTimeMillis();
 
@@ -98,7 +99,7 @@ class SourceReaderTest {
         assertThat(ofMillis(currentTimeMillis() - now)).isBetween(ofSeconds(2), ofSeconds(4));
     }
 
-    private List<String> readInputStream(List<String> lines, int maxEvents, Duration maxTime) throws IOException {
+    private List<PickRequest> readInputStream(List<String> lines, int maxEvents, Duration maxTime) throws IOException {
         var sourceReader = new SourceReader(maxEvents, maxTime);
 
         var input = join("\n", lines);

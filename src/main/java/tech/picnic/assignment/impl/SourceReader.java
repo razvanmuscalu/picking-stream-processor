@@ -23,6 +23,8 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 class SourceReader {
 
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     private static final String EMPTY_LINE = "";
 
     private final int maxEvents;
@@ -31,10 +33,13 @@ class SourceReader {
     SourceReader(int maxEvents, Duration maxTime) {
         this.maxEvents = maxEvents;
         this.maxTime = maxTime;
+
+        OBJECT_MAPPER.registerModule(new JavaTimeModule());
+        OBJECT_MAPPER.disable(WRITE_DATES_AS_TIMESTAMPS);
     }
 
-    List<String> readLines(InputStream source) {
-        final var lines = new LinkedList<String>();
+    List<PickRequest> readLines(InputStream source) {
+        final var lines = new LinkedList<PickRequest>();
 
         ExecutorService executor = newSingleThreadExecutor();
         Future<?> future = executor.submit(() -> accumulateLines(source, lines));
@@ -55,7 +60,7 @@ class SourceReader {
         return lines;
     }
 
-    private void accumulateLines(InputStream source, List<String> lines) {
+    private void accumulateLines(InputStream source, List<PickRequest> lines) {
         try (final var bufferedReader = new BufferedReader(new InputStreamReader(source, UTF_8))) {
             var counter = 0;
             while (counter < maxEvents) {
@@ -64,7 +69,9 @@ class SourceReader {
 
                 final String line = bufferedReader.readLine();
                 if (line != null && !line.equals(EMPTY_LINE)) {
-                    lines.add(line);
+
+                    var pick = toPickRequest(line);
+                    pick.ifPresent(lines::add);
                     counter++;
                 }
             }
@@ -73,6 +80,14 @@ class SourceReader {
             e.printStackTrace();
         } catch (InterruptedException e) {
             System.out.println(format("Thread[%s]: InputStream has been closed as application reached timeout.", currentThread().getName()));
+        }
+    }
+
+    private Optional<PickRequest> toPickRequest(String line) {
+        try {
+            return Optional.of(OBJECT_MAPPER.readValue(line, PickRequest.class));
+        } catch (IOException e) {
+            return Optional.empty();
         }
     }
 

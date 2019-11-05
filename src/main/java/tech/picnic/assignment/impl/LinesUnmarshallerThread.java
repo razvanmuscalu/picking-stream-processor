@@ -1,22 +1,17 @@
 package tech.picnic.assignment.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import tech.picnic.assignment.model.PickRequest;
 
 import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static java.lang.String.format;
 import static java.lang.Thread.currentThread;
+import static tech.picnic.assignment.impl.Utilities.OBJECT_MAPPER;
+import static tech.picnic.assignment.impl.Utilities.POISON_PILL;
 
 public class LinesUnmarshallerThread implements Runnable {
-
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-
-    private static final String POISON_PILL = "stop";
 
     private final LinkedBlockingQueue<String> lines;
     private final LinkedBlockingQueue<PickRequest> picks;
@@ -24,9 +19,6 @@ public class LinesUnmarshallerThread implements Runnable {
     LinesUnmarshallerThread(LinkedBlockingQueue<String> lines, LinkedBlockingQueue<PickRequest> picks) {
         this.lines = lines;
         this.picks = picks;
-
-        OBJECT_MAPPER.registerModule(new JavaTimeModule());
-        OBJECT_MAPPER.disable(WRITE_DATES_AS_TIMESTAMPS);
     }
 
     @Override

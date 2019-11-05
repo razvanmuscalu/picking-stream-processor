@@ -1,7 +1,5 @@
 package tech.picnic.assignment.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import tech.picnic.assignment.api.StreamProcessor;
 import tech.picnic.assignment.model.*;
 
@@ -10,28 +8,24 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static java.util.Comparator.comparing;
 import static java.util.Map.Entry.comparingByKey;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toUnmodifiableList;
+import static tech.picnic.assignment.impl.Utilities.OBJECT_MAPPER;
 import static tech.picnic.assignment.model.TemperatureZone.Ambient;
 
 public class PickingStreamProcessor implements StreamProcessor {
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final TemperatureZone REQUIRED_TEMPERATURE_ZONE = Ambient;
 
     private final SourceReader sourceReader;
 
     PickingStreamProcessor(SourceReader sourceReader) {
         this.sourceReader = sourceReader;
-
-        OBJECT_MAPPER.registerModule(new JavaTimeModule());
-        OBJECT_MAPPER.disable(WRITE_DATES_AS_TIMESTAMPS);
     }
 
     @Override

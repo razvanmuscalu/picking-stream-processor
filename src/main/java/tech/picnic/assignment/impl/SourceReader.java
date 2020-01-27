@@ -1,7 +1,5 @@
 package tech.picnic.assignment.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import tech.picnic.assignment.model.PickRequest;
 
 import java.io.BufferedReader;
@@ -14,16 +12,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.*;
 
-import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static java.lang.String.format;
 import static java.lang.Thread.currentThread;
 import static java.lang.Thread.sleep;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
+import static tech.picnic.assignment.impl.Utilities.OBJECT_MAPPER;
 
 class SourceReader {
-
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private static final String EMPTY_LINE = "";
 
@@ -33,9 +29,6 @@ class SourceReader {
     SourceReader(int maxEvents, Duration maxTime) {
         this.maxEvents = maxEvents;
         this.maxTime = maxTime;
-
-        OBJECT_MAPPER.registerModule(new JavaTimeModule());
-        OBJECT_MAPPER.disable(WRITE_DATES_AS_TIMESTAMPS);
     }
 
     List<PickRequest> readLines(InputStream source) {
